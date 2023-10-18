@@ -43,10 +43,13 @@ class Solution {
 
         for(int i =0; i< s.length(); i++){
             if(visited.containsKey(s.charAt(i))){
-                pointer_one =  Math.max(pointer_one, visited.get(s.charAt(i)) + 1);
+                pointer_one =  Math.max(pointer_one, visited.get(s.charAt(i)) + 1); // I get the index of an already visited char, so It may be behind  or ahead of pointer, I choose the max
+               
             }
-                res = Math.max(res, i - pointer_one + 1);
-                visited.put(s.charAt(i), i );
+                res = Math.max(res, i - pointer_one + 1); 
+            // I think this is needed to make sure if the longest substring is not at the end of the string (https://www.linkedin.com/in/mohamad-radi-7b5506166/),
+            // So we choose max between last substring and that 
+            visited.put(s.charAt(i), i );
         }
         return res;
         }

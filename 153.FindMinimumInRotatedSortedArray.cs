@@ -1,7 +1,8 @@
-public class Solution {
+// [7,8,5,6] , [1,2,3,4]
+public class Solution {  
     public int FindMin(int[] nums) {
         int index = 1; 
-            if(nums.Length == 1 || (nums[0] < nums[1] && nums[0] < nums.Last()))
+            if(nums.Length == 1 || nums[0] < nums.Last())
                 return nums[0];        
         while(index +1 < nums.Length)
         {                

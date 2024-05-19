@@ -1,4 +1,4 @@
-// [7,8,5,6] , [1,2,3,4]
+// [7,8,9,5,6] , [1,2,3,4]
 public class Solution {  
     public int FindMin(int[] nums) {
         int index = 1; 

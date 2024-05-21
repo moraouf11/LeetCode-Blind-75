@@ -1,3 +1,6 @@
+// Input: n = 3
+// Output: ["((()))","(()())","(())()","()(())","()()()"]
+
 public class Solution {
     public IList<string> GenerateParenthesis(int n) 
     {

@@ -1,0 +1,35 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode OddEvenList(ListNode head) {
+
+        if(head == null)
+            return null;
+
+        ListNode odd = head; // odd node
+        ListNode even = head.next; // even node
+        ListNode evenHead = head.next; // to keep reference for even start node 
+
+        while(even != null && even.next !=null )
+        {
+            odd.next = even.next; // link odd node to next odd one
+            odd = even.next;  // change current odd to refer to another node (next odd)
+            even.next = odd.next;// link even node to next even one
+            even = odd.next; // change current even refernce to refernece next one
+            // here these pointers are used to refer to some other nodes while .next actally
+            //changes the value 
+        }
+        odd.next= evenHead;
+        return head; // here is a reference to the start, and I only changed odd that was 
+        // equal to head in the beginning
+    }
+}

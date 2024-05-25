@@ -30,7 +30,7 @@ public class Solution {
         // a dict also ensures that we don't create a cloned node multiple times
         var visitedDict = new Dictionary<Node, Node>();
 
-        // put clone first one with it's connected nodes yet to be cloned
+        // put clone first one with it's connected nodes yet to be cloned , initialize a new one to not refer to the old one
         visitedDict[node] = new Node(node.val, new List<Node>());
         var queue = new Queue<Node>();
         queue.Enqueue(node);
@@ -43,7 +43,7 @@ public class Solution {
                 if(!visitedDict.ContainsKey(neighbor))
                 {
                     // Add neighbor to be proccessed later
-                    visitedDict[neighbor] = new Node(neighbor.val, new List<Node>());
+                    visitedDict[neighbor] = new Node(neighbor.val, new List<Node>()); // intialize a new node to make sure you don't refer to the old one
 
                     // Add neighbor to be proccessed later
                     queue.Enqueue(neighbor);

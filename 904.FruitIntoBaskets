@@ -1,0 +1,28 @@
+public class Solution {
+    public int TotalFruit(int[] fruits) {
+        var basket = new Dictionary<int, int>();
+        int maxSum=0;
+        int left=0;
+
+        for(int right =0; right< fruits.Length ; right++)
+        {
+            if(basket.ContainsKey(fruits[right]))
+               basket[fruits[right]]++;
+            else
+               basket[fruits[right]]=1;
+        // we will start removing from dictionary so that we get the count to 2 or less again
+        while(basket.Count > 2)
+        {
+            basket[fruits[left]]--;
+            if(basket[fruits[left]] ==0)
+               basket.Remove(fruits[left]);
+            left++; // we increase the left anyway to remove from different items each time and end up with only items of high frequency
+        }
+
+        maxSum = Math.Max(maxSum, right-left+1);
+        }
+        return maxSum;
+
+
+    }
+}

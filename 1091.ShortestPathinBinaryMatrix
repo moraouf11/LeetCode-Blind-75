@@ -1,0 +1,43 @@
+public class Solution {
+    private readonly int[][] directions = new int[][]
+    {
+        new int[]{0,1},// right
+        new int[]{1,1}, // down-right
+        new int[]{1,0}, // down
+        new int[]{1,-1},//down-left
+        new int[]{0,-1},// left
+        new int[]{-1,-1},// up-left
+        new int[]{-1,0},// up
+        new int[]{-1,1},//up-right
+    };
+
+
+    public int ShortestPathBinaryMatrix(int[][] grid) {
+        int n = grid.Length;
+        if(n ==0 || grid[0][0] != 0 || grid[n-1][n-1] != 0)
+           return -1;
+        var queue = new Queue<(int row, int col , int distance)>();
+        queue.Enqueue((0,0,1));
+        grid[0][0] = 1; // Mark the start point as visited
+
+        while(queue.Count() >0)
+        {
+            var(row, col, dist) = queue.Dequeue();
+
+            if(row == n-1 && col == n-1)
+               return dist;
+
+            foreach(var dict in directions)
+            {
+                int newR = row +dict[0] ; 
+                int newC = col+ dict[1];
+                if(newR >= 0 &&  newR < n && newC >= 0 && newC < n 
+                   && grid[newR][newC] == 0){
+                   queue.Enqueue((newR, newC, dist +1));
+                  grid[newR][newC] = 1; // Mark the cell as visited
+                   }
+            }
+        }
+        return -1;
+    }
+}

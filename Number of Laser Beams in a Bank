@@ -1,0 +1,16 @@
+public class Solution {
+    public int NumberOfBeams(string[] bank) {
+        int prevCount=0;
+        int currCount=0;
+        int laserCount=0;
+        foreach (string laserRow in bank) //["011001","000000","010100","001000"]
+        {
+            currCount = laserRow.Count(c => c == '1');//3,0,2
+            if(prevCount !=0 && currCount !=0)
+               laserCount += currCount *prevCount; //6
+            if (currCount != 0)
+               prevCount = currCount; // 3
+        }
+        return laserCount;
+    }
+}

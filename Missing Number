@@ -1,0 +1,32 @@
+public class Solution {
+    public int MissingNumber(int[] nums) {
+        // if number is not in it's index, swap the number that is in it's index
+        // 0,1,2,3,4,5,7
+        // 4 , swap it with 5 ,
+        // 
+        int n = nums.Length;
+        int i = 0;
+        while(i<n )
+        {
+            if(nums[i] < n && nums[i] != i)
+            {
+                int temp =  nums[nums[i]];
+                nums[nums[i]] = nums[i];
+                nums[i] = temp;
+            }
+            else 
+              i++;
+
+        }
+        i = 0;
+
+        while(i< n)
+        {
+            if(nums[i]!= i)
+               return i;
+            i++;
+        }
+
+        return n;
+    }
+}

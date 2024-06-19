@@ -1,0 +1,51 @@
+public class Solution {
+    public int CountPairs(IList<int> nums, int target) {
+        //-7,-6,-2,-1,2,3,5
+
+        int left =0;
+        int right = nums.Count()-1;
+        int count =0;
+        Array.Sort(nums.ToArray());
+        while(left < right)
+        {
+            
+            if(nums[left] + nums[right] < target)
+               count++;
+            if(left+1 == right)
+            {
+            right = nums.Count()-1;
+            left++;
+            }
+            else 
+                right--;
+
+        } 
+        return count;
+    }
+}
+// public int CountPairs(int[] nums, int target)
+// {
+//     int count = 0;
+//     Array.Sort(nums); // Sort the array in ascending order
+
+//     int left = 0;
+//     int right = nums.Length - 1;
+
+//     while (left < right)
+//     {
+//         int sum = nums[left] + nums[right];
+//         if (sum < target)
+//         {
+//             // All pairs with the current left element and any right element with index > right
+//             // will also have a sum less than the target, so we can add right - left to the count
+//             count += right - left;
+//             left++;
+//         }
+//         else
+//         {
+//             right--;
+//         }
+//     }
+
+//     return count;
+// }

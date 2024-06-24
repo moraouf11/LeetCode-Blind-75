@@ -1,0 +1,40 @@
+public class Solution {
+    public int[] RelativeSortArray(int[] arr1, int[] arr2) {
+        var dict = new Dictionary<int, int>();
+        var result = new int[arr1.Length];
+        foreach(int elem in arr1)
+        {
+            if(dict.ContainsKey(elem))
+                dict[elem]++;
+            else 
+               dict.Add(elem,1);
+        }
+
+        int i =0;
+        foreach(int elem in arr2)
+        {
+            while(dict[elem] >0)
+            {
+             result[i] = elem;
+             i++;
+             dict[elem]--;
+            }
+            dict.Remove(elem);
+        }
+        var pq = new PriorityQueue<int,int>();
+        foreach(var kv in dict)
+        {   while(dict[kv.Key] >0)
+            {
+             pq.Enqueue(kv.Key, kv.Key);
+             dict[kv.Key]--;
+            }            
+        }
+        while(i < arr1.Length)
+        {
+            result[i] = pq.Dequeue();
+            i++;
+        }
+
+        return result;
+    }
+}

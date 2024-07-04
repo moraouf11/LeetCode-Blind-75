@@ -1,0 +1,67 @@
+public class Solution {
+    public double[] CalcEquation(IList<IList<string>> equations, double[] values, IList<IList<string>> queries) {
+        // initialize a dictionary for storing equations variables
+        // for numerator -> store value and denominator
+        // for denominator -> store 1/value and numerator
+        var result = new double[queries.Count];
+        var graph = new Dictionary<string, Dictionary<string, double>>();
+        for(int i =0; i< equations.Count; i++)
+        {
+            var numer = equations[i][0];
+            var denom = equations[i][1];
+
+            if(!graph.ContainsKey(numer))
+                graph.Add(numer, new Dictionary<string, double>());
+            if(!graph.ContainsKey(denom))
+                graph.Add(denom, new Dictionary<string, double>());
+
+            graph[numer][denom] = values[i];
+            graph[denom][numer] = 1/values[i];
+        }
+
+
+        // for queries
+        // if a query variable doesn't exist => -1
+        // else dfs on numerator to denominator relations
+        for(int i =0; i< queries.Count; i++)
+        {
+            string num = queries[i][0];
+            string den = queries[i][1];
+            if(graph.ContainsKey(num) && graph.ContainsKey(den))
+            {    
+                var visited = new HashSet<string>();
+                result[i]=dfs(num, den, 1.0, visited);
+            }
+            else
+               result[i] = -1.0;
+        }
+
+        return result;
+
+
+    double dfs(string start, string end, double product, HashSet<string> visited )
+    {
+        if(start == end )
+           return product;
+        
+        visited.Add(start);
+        foreach(var nei in graph[start]) //a-b // b-c
+        {   
+            if (!visited.Contains(nei.Key))
+            {
+                var result = dfs( nei.Key, end, product* nei.Value, visited);
+                if (result != -1.0)
+                    return result;      
+                // the thing here is that I want to continue looping/searching for
+                // a result if current neighbor didn't evaluate (gave -1.0)
+                // and I don't want to multiply the -1.0(not evaluable ) to the result
+                    
+            }
+        }
+        return -1;
+    }
+    }
+
+
+
+}

@@ -1,0 +1,34 @@
+public class Solution {
+    public int FindRadius(int[] houses, int[] heaters) {
+     Array.Sort(heaters);
+     int max =0;
+
+     foreach(int house in houses)
+     {
+        int raduis = FindMinRadius(house, heaters);
+        max = Math.Max(max, raduis);
+     }  
+     return max;
+    }
+
+    private int FindMinRadius(int house, int[] heaters)
+    { // finding nearest heater to this house
+        int left = 0;
+        int right = heaters.Length -1;
+        while(left <= right)
+        {
+            int mid = (right - left) /2 + left;
+            if(heaters[mid] == house)
+               return 0;
+            else if(heaters[mid] < house)
+                left = mid +1;
+            else 
+               right = mid -1;
+            
+        }
+        int dist1 = (left >= heaters.Length) ? int.MaxValue : Math.Abs(heaters[left] - house);
+        int dist2 = (right < 0) ? int.MaxValue : Math.Abs(heaters[right] - house);
+        
+        return Math.Min(dist1, dist2);
+    }
+}

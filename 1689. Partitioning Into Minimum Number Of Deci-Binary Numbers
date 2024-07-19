@@ -1,0 +1,14 @@
+public class Solution {
+    public int MinPartitions(string n) {
+        //var charArray = n.ToCharArray();
+        int min=0;
+        foreach(char num in n){
+            //int number = int.Parse(num.ToString());
+            min = Math.Max(num -'0',min); //number > min ? number : min;
+            if(min ==9)
+               return 9;
+        }
+        return min;
+    }
+  //   public int MinPartitions(string n) => n.Max() - '0';
+}

@@ -1,0 +1,24 @@
+public class Solution {
+    public bool CanVisitAllRooms(IList<IList<int>> rooms) {
+        var stack = new Stack<int>();
+        HashSet<int> visited = new();
+
+        stack.Push(0);
+        visited.Add(0);
+
+        while(stack.Count >0)
+        {
+            int cur = stack.Pop();
+            visited.Add(cur);
+
+            foreach(int key in rooms[cur])
+            {
+                if(!visited.Contains(key)) stack.Push(key);
+            }
+        }
+
+        return visited.Count == rooms.Count;
+    }
+
+
+}

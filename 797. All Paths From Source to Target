@@ -1,0 +1,57 @@
+public class Solution {
+    public IList<IList<int>> AllPathsSourceTarget(int[][] graph) {
+        
+        var result = new List<IList<int>>();
+        var path = new List<int>();
+        path.Add(0); // add first node the first possible path
+
+        // // bfs
+        // var queue = new Queue<List<int>>();
+        // queue.Enqueue(path); // starting search point
+
+        // while(queue.Count > 0)
+        // {
+        //     var candidate = queue.Dequeue();
+        //     int current = candidate[candidate.Count -1]; // current is my current index in the search 
+        //     // start'current' will be zero
+        //     if(current == (graph.Length -1)) result.Add(new List<int>(candidate)); // if I reached the trget, add
+        //     foreach(int node in graph[current]) // search all possible paths at current index
+        //     {
+        //         var newPath = new List<int>(candidate);
+        //         newPath.Add(node);
+        //         queue.Enqueue(newPath);
+
+        //     }
+        // }
+
+
+        //backtracking
+        backtrack(path, result, graph[0], graph);
+ 
+
+        return result;
+    }
+
+    private void backtrack(List<int> currPath, List<IList<int>> ans, int[] currNode, int [][] graph)
+    {
+        //if the current position is the last index of graph, add the path to get here to our solution
+        if(currPath[currPath.Count -1] == graph.Length -1)
+           {
+            ans.Add(new List<int>(currPath));
+            return;
+           }
+
+           else // go through each pointer in the node and visit that position using the recursive algorithm
+              for(int i =0; i< currNode.Length; i++)
+              {
+                if(!currPath.Contains(currNode[i]))
+                {
+                    currPath.Add(currNode[i]);
+                    backtrack(currPath, ans,graph[currNode[i]],graph);
+                    currPath.RemoveAt(currPath.Count -1);
+                }
+              }
+
+    }
+
+}

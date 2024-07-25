@@ -1,0 +1,58 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+//     public TreeNode BuildTree(int[] preorder, int[] inorder) {
+//         if(preorder.Count() == 1 )
+//            return new TreeNode(preorder[0]);
+//         return buildNode(0,0,preorder.Length-1 , preorder, inorder);
+//     }
+//         private static TreeNode buildNode(int valInd, int start, int end, int[] preorder, int[] inorder)
+//         {
+//             if (valInd > preorder.Length - 1 || start > end) return null;
+
+//             var root = new TreeNode(preorder[valInd]);
+//             int index = 0;
+//             for (int i = start; i <= end; i++)
+//             {
+//                 if (preorder[valInd] == inorder[i])
+//                 { index = i;
+//                     break;
+//                 }
+//             }
+
+// // index: The position of the current root node in the inorder array.
+// // valInd: The current index in the preorder 
+// //  start to index - 1 are in the left subtree.
+// //  index + 1 to end are in the right subtree.
+// // leftTreeSize = index - start: The number of elements in the left subtree.
+
+//             var leftSubTreeSize = index - start;
+//             root.left = buildNode(valInd + 1, start, index-1, preorder, inorder);
+//             root.right = buildNode(valInd + leftSubTreeSize + 1, index + 1, end, preorder, inorder);
+//             return root;
+//         }
+
+
+        public TreeNode BuildTree(int[] preorder, int[] inorder) {
+        if(preorder is null || !preorder.Any() ||
+           inorder is null || !inorder.Any()) return null;
+
+        TreeNode root = new TreeNode(preorder[0]);
+        int middle = Array.IndexOf(inorder, preorder[0]);
+        root.left = BuildTree(preorder[1..(middle+1)], inorder[..middle]);
+        root.right = BuildTree(preorder[(middle+1)..], inorder[(middle+1)..]);
+        
+        return root;
+    }
+}

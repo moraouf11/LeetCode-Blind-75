@@ -1,0 +1,21 @@
+public class Solution {
+    public int CharacterReplacement(string s, int k) {
+        int[] frequency = new int[26]; // sliding window technique
+        int maxWindowFreq = 0;
+        int max =0;
+        int left =0;
+        for(int right =0; right < s.Length; right ++)
+        {
+            frequency[s[right] - 'A']++;
+            maxWindowFreq = Math.Max(frequency[s[right] - 'A'] , maxWindowFreq);
+
+            while(right - left +1 > k + maxWindowFreq)
+            { //We narrow the window till it matchs maximum of ( k + max window frequency) or longest possible substring 
+                frequency[s[left] - 'A']--;
+                left++;
+            }
+            max = Math.Max(max,right - left +1  );
+        }
+        return max;
+    }
+}

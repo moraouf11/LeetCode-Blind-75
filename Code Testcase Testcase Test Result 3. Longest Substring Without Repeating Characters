@@ -1,0 +1,28 @@
+public class Solution {
+    public int LengthOfLongestSubstring(string s) {
+        if(s.Length ==1)
+           return 1;
+      int left = 0;
+      int right = 0;
+      int max=0;
+      var map = new Dictionary<char, int>();
+      while(right < s.Length)
+      {
+        if(!map.ContainsKey(s[right]))
+        {
+            map.Add(s[right], right);
+            right++;
+        }
+        else 
+           {
+//Updating the left pointer: When a repeating character is found, the left pointer should only be updated if the new position is greater than its current value. This ensures the left pointer only moves forward.
+            //left = map[s[right]]+1;
+            left = Math.Max(map[s[right]] + 1, left);
+            map[s[right]] = right;
+            right++;
+           }
+            max = Math.Max(max, right- left);
+      }
+      return max;  
+    }
+}

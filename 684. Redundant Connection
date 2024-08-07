@@ -1,0 +1,40 @@
+public class Solution {
+    public int[] FindRedundantConnection(int[][] edges) {
+        var parent = new int[edges.Length+1];
+        var res = new List<int[]>();
+
+        for(int i =1; i< parent.Length; i++)
+        {
+            parent[i]=i;
+        }
+        foreach(var edge in edges)
+        {
+            if(findParent(edge[0], parent) != findParent(edge[1], parent))
+                union(edge[0], edge[1], parent);
+            else 
+               res.Add(edge);
+               //If the nodes belong to the same set, 
+               //it means adding this edge would form a cycle, so it is added to the res list.
+        }
+        return res[res.Count -1];
+    }
+
+        private int findParent(int x, int[] parent)
+        {
+            if(parent[x] != x)
+            {
+                parent[x] = findParent(parent[x], parent); 
+                // Path Compression: During the recursive calls,
+                // the parent of each visited node is updated to point directly 
+                //to the root parent. This flattens the structure, 
+                //making future findParent operations faster.
+            }
+            return parent[x];
+        }
+       private void union(int x, int y,int[] parent)
+       {
+          parent[parent[x]]= parent[findParent(y, parent)];
+          //  unites the sets containing x and y by making the root parent of x
+          // point to the root parent of y.
+       }
+}

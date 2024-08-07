@@ -1,0 +1,48 @@
+public class Solution {
+    public int OrangesRotting(int[][] grid) {
+        int minutes=0;
+        int fresh=0;
+        var q = new Queue<(int,int)>();
+        for(int i =0; i< grid.Length; i++)
+        {
+            for(int j =0; j< grid[0].Length; j++)
+            {
+                if(grid[i][j] ==2)
+                   q.Enqueue((i,j));
+                else if(grid[i][j] ==1)
+                    fresh++;
+            }
+         }
+         int[][] directions = new int[][]{
+            new int[] {1,0},
+            new int[] {-1,0},
+            new int[] {0,1},
+            new int[] {0,-1}
+         };
+        while (q.Count  > 0 && fresh >0)
+        {
+            int len = q.Count;
+            for(int i =0; i< len; i++)
+            {     
+                var cell = q.Dequeue();
+                foreach(var dir in directions)
+                {
+                    var x = cell.Item1+  dir[0];
+                    var y = cell.Item2 + dir[1];
+                    if(x >= 0 && x < grid.Length && y >= 0 && y < grid[0].Length 
+                      && grid[x][y] ==1 )
+                    {
+                        grid[x][y] = 2;
+                        q.Enqueue((x,y));
+                        fresh--;
+                    }
+                }
+            }
+             minutes++;
+        }
+
+
+         return fresh ==0 ? minutes : -1;    
+    }
+
+}

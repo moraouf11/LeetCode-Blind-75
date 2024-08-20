@@ -1,0 +1,22 @@
+public class Solution {
+    public bool IsValidBST(TreeNode root) {
+        return IsValidBST(root, null, null);
+    }
+
+    private bool IsValidBST(TreeNode node, int? min, int? max) {
+        if (node == null) {
+            return true;
+        }
+        // Check the current node's value against the min and max constraints
+        if ((min != null && node.val <= min) || (max != null && node.val >= max)) {
+            return false;
+        }
+        // Recursively validate the left and right subtrees
+        // For the left subtree, the max is updated to the current node's value
+        // For the right subtree, the min is updated to the current node's value
+        return IsValidBST(node.left, min, node.val) && IsValidBST(node.right, node.val, max);
+    }
+    //[5,4,6,null,null,3,7]
+    // (4)-5-((3))-(6)-((7)) ,()--> level increase 
+    // here 3 can't be less than 3 and can't be greater than 6;
+}

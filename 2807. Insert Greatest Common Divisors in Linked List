@@ -1,0 +1,71 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode InsertGreatestCommonDivisors(ListNode head) {
+        var curr = head;
+        while(curr.next != null)
+        {
+            int val1 = curr.val;
+            int val2 = curr.next.val;
+            int div = Math.Min(val2, val1); 
+            while(div >=1)
+            {
+                if(val1 % div ==0 && val2 % div ==0)
+                {
+                    var temp = curr.next;
+                    curr.next = new ListNode(div, temp);
+                    break;
+                }
+                else 
+                {
+                    div--;
+                }
+            }
+            if(curr.next != null)
+                curr = curr.next.next;
+        }
+        return head;
+    }
+}
+// optimized solution using Euclidean Algorithm:
+// The Euclidean algorithm is based on the principle that the GCD of two numbers does not change if the larger number is replaced by its difference with the smaller number. The algorithm uses division with remainders to iteratively reduce the problem until one of the numbers becomes zero, at which point the other number is the GCD.
+
+// The Key Idea:
+// If you have two numbers a and b, the GCD of a and b can be expressed as:
+// GCD(a,b)=GCD(b,a%b)
+
+// This reduces the problem of finding the GCD of a and b to finding the GCD of b and the remainder when a is divided by b (a % b). The algorithm repeats this process until one of the numbers becomes zero, at which point the GCD is the non-zero number.
+// public class Solution {
+//     public ListNode InsertGreatestCommonDivisors(ListNode head) {
+//         ListNode curr = head;
+
+//         while(curr!=null && curr.next!=null){
+//             int gcd= GCD(curr.val, curr.next.val);
+
+//             ListNode temp = curr;
+             
+//             ListNode newNode = new ListNode(gcd);
+//             newNode.next = curr.next;
+//             curr.next= newNode;
+
+//             curr= curr.next.next;
+//         }
+
+//         return head;
+//     }
+
+//     public int GCD(int a, int b){
+//         if(a==0) return b;
+
+//         return GCD(b%a,a);
+//     }
+// }

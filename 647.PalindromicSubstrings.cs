@@ -26,3 +26,33 @@ public class Solution {
         }
     
 }
+
+/// my solution 
+public class Solution {
+    public int CountSubstrings(string s) {
+        int count =0;
+        for(int i =0; i < s.Length; i++)
+        {
+            int j =i;
+            while(j< s.Length )
+            {
+                if(check(i, j, s))
+                    count++;
+                j++;
+            }
+        }
+        return count;
+    }
+    private bool check(int start, int end, string s)
+    {
+        while(start <= end)
+        {
+            if(s[start] != s[end])
+               return false;
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+}

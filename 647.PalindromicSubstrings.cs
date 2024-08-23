@@ -1,3 +1,5 @@
+/// optimum solution  O(n^2)
+
 public class Solution {
     int count = 0;
     public int CountSubstrings(string s) 
@@ -27,16 +29,16 @@ public class Solution {
     
 }
 
-/// my solution 
+/// my solution  O(n^3)
 public class Solution {
     public int CountSubstrings(string s) {
         int count =0;
-        for(int i =0; i < s.Length; i++)
+        for(int i =0; i < s.Length; i++) // O(n^2)
         {
             int j =i;
             while(j< s.Length )
             {
-                if(check(i, j, s))
+                if(check(i, j, s)) // O(n)
                     count++;
                 j++;
             }

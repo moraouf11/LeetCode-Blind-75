@@ -1,0 +1,41 @@
+public class Solution {
+    public int[][] Merge(int[][] intervals) {
+        Array.Sort(intervals, (a,b) =>a[0].CompareTo(b[0]));
+        var res = new List<int[]>();
+        var merged = intervals[0];
+        for(int i =1; i< intervals.Length; i++)
+        {
+            if(merged[1] >= intervals[i][0])
+                merged[1] = Math.Max(intervals[i][1], merged[1]); // merge all overlapping
+            else
+            {
+                res.Add(merged); // add after overlapping has finished
+                merged = intervals[i]; // get next to compare to all intervals afterwards
+            }
+        }
+        res.Add(merged); // add last interval that wasn't added due to being last
+        return res.ToArray();
+    }
+}
+
+
+// In-place algorithm using two pointers | 144 ms
+public class Solution {
+    public int[][] Merge(int[][] intervals) {
+        Array.Sort(intervals, (x,y) => x[0] - y[0]);
+        int i = 0, j = 1;
+        while (j < intervals.Length) {
+            var first = intervals[i];
+            var second = intervals[j];
+            if (first[1] >= second[0]) {
+                first[1] = Math.Max(first[1], second[1]); // merge all overlapping
+            }
+            else {
+                intervals[i+1] = intervals[j]; // replace merged ones with next interval for comaprison
+                i++;
+            }
+            j++;
+        }
+        return intervals[..(i+1)]; // return only till i+1 since that's where our merging of all intervals ended in place
+    }
+}

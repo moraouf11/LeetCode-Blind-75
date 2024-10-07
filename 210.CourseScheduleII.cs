@@ -7,7 +7,7 @@ public class Solution {
             preqMap[i] = new List<int>();
         }
 
-//[1,0] -> 1 is dependent on 0 , you should finish course zero first, that is represnted by 
+//[1,0] -> 0 is dependent on 1 , you should finish course zero first, that is represnted by 
 // { 0, [1] }
 // { 1, [] }
         foreach(var prerequisite in prerequisites){

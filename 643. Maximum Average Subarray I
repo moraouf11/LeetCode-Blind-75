@@ -1,0 +1,28 @@
+public class Solution {
+    public double FindMaxAverage(int[] nums, int k) {
+        int max = 0;
+        int tempSum = 0;
+
+        int i=0;
+        while(i< nums.Length)
+        {
+            if(i< k)
+            {
+                tempSum += nums[i];
+                max = tempSum;
+
+            }
+            else
+            {
+                tempSum = tempSum - nums[i-k] + nums[i];
+                max = Math.Max(tempSum, max); //0- 0+4, 4-4+0 , // Input nums = [0,4,0,3,2]
+                // max = Math.Max(max - nums[i-k] + nums[i], max); // this is wrong since max will never be zero after being 4 , but with tempSum, tempSum will be updated to equal 0 again after 4
+
+            }
+            i++;
+        }
+        double maxAverage = max/(double)k;
+
+        return maxAverage;
+    }
+}

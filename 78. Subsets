@@ -1,0 +1,56 @@
+public class Solution {
+    // public IList<IList<int>> Subsets(int[] nums) {
+    //     // iterative solution
+    //     IList<IList<int>> result = new List<IList<int>>();
+    //     result.Add(new List<int>()); 
+
+    //     foreach(var num in nums)
+    //     {
+    //        int size = result.Count;
+    //         for (int i = 0; i < size; i++) {
+    //             List<int> newSubset = new List<int>(result[i]);
+    //             newSubset.Add(num);
+    //             result.Add(newSubset);
+    //         }
+    //     }
+    // //{[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]} // order of inserting in this loop
+    //     return result;
+    // }
+    public IList<IList<int>> Subsets(int[] nums) {
+    // bitmask solution 
+    var result = new List<IList<int>>();
+        if (nums.Length != 0)
+        {
+            int resultLength = (int)Math.Pow(2, nums.Length);
+            for(int i =0; i< resultLength; i++)
+            {
+                var subset = new List<int>();
+                for(int j = 0; j< nums.Length; j++)
+                {
+                    if(getBit(i,j) ==1)
+                    {
+                       subset.Add(nums[j]);
+                    }
+                }
+                result.Add(subset);
+
+            }
+        }
+        else {
+            result.Add(new List<int>());
+        }
+        return result;
+    }
+    private int getBit(int num, int bit)
+    {   // num is the index in the solution set,
+        // bit is the bit representation of the number's index in input set , ex: 2 , 0010
+        int temp = (1 << bit);
+        temp = temp & num; 
+        // ex: num = 0, 00 sol = [], num =1, 01, sol will be first element in input set 
+        if(temp == 0) // so by ANDing , I now know 
+        {
+            return 0;
+        }
+        return 1;
+    }
+}

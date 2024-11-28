@@ -1,0 +1,66 @@
+public class Solution {
+    public int FindDuplicate(int[] nums) {
+        // this first solution doesn't meet the requirements
+        // bool[] numsflag = new bool[nums.Length];
+
+        // for(int i =0; i< nums.Length; i++)
+        // {
+        //     if(numsflag[nums[i]-1] == true)
+        //        return nums[i];
+
+        //     numsflag[nums[i]-1] = true;   
+        // }
+        // return -1;
+
+        int i =0;
+        // using cyclic sort : 
+        // while (i < nums.Length)
+        // {
+        //     int correctSpot = nums[i] - 1; //2
+        //     if (nums[i] != nums[correctSpot])
+        //     {
+        //         int temp = nums[i]; //3
+        //         nums[i] = nums[correctSpot]; //3 
+        //         nums[correctSpot] = temp; //3
+        //     }
+        //     else
+        //     {
+        //         i++;
+        //     }
+        // }
+        // for(int j =0; j< nums.Length; j++)
+        // {
+        //     int correct = j+1;
+        //     if(nums[j] != correct)
+        //     {
+        //         return nums[j];
+        //     }
+        // }
+        // return -1;
+        
+        
+        // using fast and slow pointers
+        int fast = nums[0];
+        int slow = nums[0];
+
+        while(true)
+        {
+            fast = nums[nums[fast]];
+            slow = nums[slow];
+            if(slow == fast)
+               break;
+
+        }
+        slow = nums[0];
+        while(true)
+        {   
+            if(slow == fast)
+            {
+               return slow;
+            }
+            fast = nums[fast];
+            slow = nums[slow];
+        }
+        return -1;
+}
+}

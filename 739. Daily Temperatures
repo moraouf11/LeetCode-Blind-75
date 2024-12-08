@@ -1,17 +1,18 @@
-public class Solution {
+public class Solution { // [73,74,75,71,69,72,76,73]
     public int[] DailyTemperatures(int[] temperatures) {
         var stack = new Stack<int>();
         var result = new int[temperatures.Length];
         for(int i=0; i< temperatures.Length; i++)
-        {
+        { 
             var current = temperatures[i];
+            // this makes sure this is a monotonic stack (75,71,69) , since I pop from stack if current temp is higher from peek value or else I push in only smaller cases
             while(stack.Count > 0 && temperatures[i] > temperatures[stack.Peek()])
             { // here I'm sure that all smaller than current will be poped and from the stack 
                 var prev = stack.Pop();
                 var diff = i - prev;
                 result[prev] = diff;
             }
-            stack.Push(i);
+            stack.Push(i); // while i = 3, stack has value 2 (75)then 2,3,4 , then 4,3 is popped with tem[i] = 72, then 75 is popped with temp 76
 
         }
         return result;

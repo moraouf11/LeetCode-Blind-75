@@ -24,26 +24,26 @@ public class Node {
 public class Solution {
     public Node Connect(Node root) {
         
-        var levelQ = new Queue<(Node, int)>();
-        if(root == null) return root;
+        // var levelQ = new Queue<(Node, int)>();
+        // if(root == null) return root;
 
-        levelQ.Enqueue((root, 0));
-        while(levelQ.Count >0)
-        {
-            var nodeItem = levelQ.Dequeue();
-            var node = nodeItem.Item1;
-            var level = nodeItem.Item2;
-            if( levelQ.Count >0 && levelQ.Peek().Item2 == level)
-            {
-                node.next = levelQ.Peek().Item1;
-            }
-            else 
-               node.next = null;
+        // levelQ.Enqueue((root, 0));
+        // while(levelQ.Count >0)
+        // {
+        //     var nodeItem = levelQ.Dequeue();
+        //     var node = nodeItem.Item1;
+        //     var level = nodeItem.Item2;
+        //     if( levelQ.Count >0 && levelQ.Peek().Item2 == level)
+        //     {
+        //         node.next = levelQ.Peek().Item1;
+        //     }
+        //     else 
+        //        node.next = null;
 
-            if (node.left != null) levelQ.Enqueue((node.left, level + 1));
-            if (node.right != null) levelQ.Enqueue((node.right, level + 1));
-        }
-        return root;
+        //     if (node.left != null) levelQ.Enqueue((node.left, level + 1));
+        //     if (node.right != null) levelQ.Enqueue((node.right, level + 1));
+        // }
+        // return root;
 
         
         //### Similar solution but the way it segrgates levels is by storing the curreny count 
@@ -73,6 +73,35 @@ public class Solution {
         // }
 
         // return root;
+
+        // best solution as it uses no extra space, builds on previously connected nodes
+        if (root == null)
+        {
+            return null;
+        }
+
+        var mostleft = root;
+
+        while (mostleft.left != null)
+        {
+            var current = mostleft;
+
+            while (current != null)
+            {
+                current.left.next = current.right;
+
+                if (current.next != null)
+                {
+                    current.right.next = current.next.left;
+                }
+
+                current = current.next;
+            }
+
+            mostleft = mostleft.left;
+        }
+
+        return root;
     }
 
 }

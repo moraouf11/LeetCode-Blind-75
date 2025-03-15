@@ -1,0 +1,21 @@
+public class Solution {
+    public int FindBestValue(int[] arr, int target) {
+        Array.Sort(arr);
+        int n = arr.Length;
+        int remain = target;
+        for(int i =0 ; i< arr.Length; i++)
+        {
+            if(remain <= arr[i]* (n-i) )
+            {
+                double replacementValue = (double )remain / (n-i);
+                if(replacementValue - (int) replacementValue == 0.5)
+                {
+                    return (int)replacementValue;
+                }
+                return (int) Math.Round(replacementValue);
+            }
+            remain -= arr[i];
+        }
+        return arr[n-1];
+    }
+}

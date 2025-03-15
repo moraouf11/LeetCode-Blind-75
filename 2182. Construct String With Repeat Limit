@@ -1,0 +1,87 @@
+public class Solution {
+    public string RepeatLimitedString(string s, int repeatLimit) {
+        // ### A good solution but the swapping step 
+        // ### is bad as it results in O(N^2) in worst case
+        
+        // int left =0;
+        // int right =0;
+        // char[] sorted = s.ToCharArray();
+        // Array.Sort(sorted, (a, b) => b.CompareTo(a));
+        // var result = new StringBuilder();
+        // while(right < s.Length)
+        // {
+        //     if(right > 0 && sorted[right] != sorted[right-1])
+        //     {
+        //         left = right;
+        //     }
+        //     if(right - left < repeatLimit)
+        //     {
+        //         result.Append(sorted[right]);
+        //         right++;
+        //     }
+        //     else if(right +1 < s.Length)
+        //     {
+        //         int diff = right;
+        //         while(diff < s.Length && sorted[right]== sorted[diff])
+        //         {
+        //             diff++;
+        //         }
+        //         if(diff >= s.Length || sorted[right]== sorted[diff])
+        //            break;
+        //         var temp = sorted[diff];
+        //         sorted[diff] = sorted[right];
+        //         sorted[right] = temp;
+
+        //         result.Append(sorted[right]);
+        //         left = right;
+        //         right++;
+        //     }
+        //     else 
+        //       break;
+        // }
+        // return result.ToString();
+
+
+        int[] freq = new int[26];
+
+        foreach(var c in s)
+        {
+            freq[c-'a']++;
+        }
+
+        var result = new StringBuilder();
+        int maxIndex = 25, secondMaxIndex;
+        int repeatCount = 0;
+
+        while(maxIndex >= 0)
+        {
+            while(maxIndex >= 0 && freq[maxIndex] == 0 )
+            {
+                maxIndex--;
+            }
+            if (maxIndex < 0) break; // No characters left
+
+            if(result.Length > 0 && result[^1] == (char) ('a'+ maxIndex) 
+            && repeatCount == repeatLimit)
+            {
+                secondMaxIndex = maxIndex-1;
+                while (secondMaxIndex >= 0 && freq[secondMaxIndex] == 0) {
+                    secondMaxIndex--;
+                }
+                if (secondMaxIndex < 0) break; 
+
+                result.Append((char) ('a' + secondMaxIndex));
+                freq[secondMaxIndex]--;
+                repeatCount = 1;  // Reset count for new character
+            }
+            else
+            {
+                result.Append((char) ('a' + maxIndex));
+                freq[maxIndex]--;
+                repeatCount = (result.Length > 1 && result[^1] == result[^2]) ? repeatCount + 1 : 1;
+            }
+        }
+        return result.ToString();
+
+    }
+}

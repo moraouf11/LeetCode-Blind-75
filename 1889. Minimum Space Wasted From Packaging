@@ -1,0 +1,110 @@
+using System;
+using System.Linq;
+
+public class Solution {
+    public int MinWastedSpace(int[] packages, int[][] boxes) {
+        // Sort the packages array
+        Array.Sort(packages);
+        int pCount = packages.Length;
+        long mod = 1_000_000_007;
+        long minWaste = long.MaxValue;
+
+        // Compute prefix sum of packages
+        long[] prefixSum = new long[pCount + 1];
+        for (int i = 0; i < pCount; i++) {
+            prefixSum[i + 1] = prefixSum[i] + packages[i];
+        }
+
+        // Try each supplier's box set
+        foreach (var box in boxes) {
+            Array.Sort(box);
+            if (box[box.Length - 1] < packages[pCount - 1]) {
+                continue; // This supplier cannot fit the largest package
+            }
+
+            long totalWaste = 0;
+            int lastIndex = 0;
+
+            foreach (var size in box) {
+                // Find right-most package index that can fit in `size`
+                int right = UpperBound(packages, size);
+                if (right == lastIndex) continue; // No new packages covered
+                
+                long sumOfPackages = prefixSum[right] - prefixSum[lastIndex];
+                totalWaste += (long)size * (right - lastIndex) - sumOfPackages;
+                lastIndex = right;
+            }
+
+            minWaste = Math.Min(minWaste, totalWaste);
+        }
+
+        return minWaste == long.MaxValue ? -1 : (int)(minWaste % mod);
+    }
+
+    private int UpperBound(int[] arr, int target) {
+        int left = 0, right = arr.Length;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (arr[mid] > target) right = mid;
+            else left = mid + 1;
+        }
+        return left;
+    }
+}
+
+
+// public class Solution {
+//     public int MinWastedSpace(int[] packages, int[][] boxes) {
+//         // sort the packages
+//         // sort supplier boxes
+//         int pCount = packages.Length;
+//         long mod = 1_000_000_007;
+//         Array.Sort(packages);
+//         foreach(var box in boxes)
+//         {
+//             Array.Sort(box); //O(j * i log i) , i are boxes, j are suppliers
+//         }
+
+//         // build a prefix sum for packages
+//         // binary search for each box size on packages list and then compare with prefix sum 
+ 
+//         var prefixSum = new int[packages.Length +1];
+//         int sum =0;
+//         for(int pack=0; pack<packages.Length; pack++)
+//         {
+//             prefixSum[pack] = sum;
+//             sum+= packages[pack];
+
+//         }
+//         int minWaste = Int32.MaxValue;
+//         foreach(var box in boxes)
+//         {
+//             int n = box.Length;
+//             if(packages[pCount -1] > box[n-1] )
+//                continue;
+//             int suppWaste = 0;
+//             int notsuppliedIndex = 0;
+//             foreach(var size in box)
+//             {
+//                 int left = 0;
+//                 int right = pCount- 1;
+//                 while(left < right)
+//                 {
+//                     int mid = left + (right - left)/2;
+//                     if(packages[mid] < size)
+//                        left = mid +1;
+//                     if(packages[mid] > size )
+//                        right = mid -1 ;
+//                     if(packages[mid] == size )
+//                        break ;
+//                 }
+//                 suppWaste += size * (left - notsuppliedIndex) - (prefixSum[left] - prefixSum [notsuppliedIndex]);
+//                 notsuppliedIndex = left;
+//             }
+//             minWaste = Math.Min(minWaste, suppWaste);
+//         }
+//         if(minWaste ==  Int32.MaxValue)
+//            return -1;
+//         return (int) (minWaste % mod);
+//    }
+// }

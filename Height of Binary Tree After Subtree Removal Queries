@@ -1,0 +1,62 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public int[] TreeQueries(TreeNode root, int[] queries) {
+
+        // my solution , decent but not effiecient // O(q*n) time
+        int[] answers = new int[queries.Length];
+        int i =0;
+        foreach(var q in queries)
+        {
+            answers[i] = getHeight(root, q) -1;
+            i++;
+        }
+        return answers;
+    }
+    private int getHeight(TreeNode root, int query)
+    {
+        if(root == null || root.val == query)
+          return 0;
+
+        int leftH = getHeight(root.left, query);
+        int rightH = getHeight(root.right, query);
+
+        return Math.Max(leftH, rightH) +1;
+    }
+
+    // better solution , O(n) time and space, not complete
+    //     DFS(root, 0);
+    //     int[] answers = new int[queries.Length];
+    //     int i =0;
+    //     foreach(var q in queries)
+    //     {
+    //         answers[i] = getHeight(root, q) -1;
+    //         i++;
+    //     }
+    //     return answers;
+    // }
+    // private int DFS(TreeNode node, int depth)
+    // {
+    //     if(root == null)
+    //       return 0;
+    //     depths[node] = depth;
+    //     int leftH = DFS(node.left, depth+1);
+    //     int rightH = DFS(node.right, depth+1);
+    //     int height = Math.Max(leftH, rightH) +1;
+    //     heights[node] = height;
+    //     return height;
+
+    // }
+
+}

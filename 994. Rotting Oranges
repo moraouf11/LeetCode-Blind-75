@@ -22,7 +22,13 @@ public class Solution {
         while (q.Count  > 0 && fresh >0)
         {
             int len = q.Count;
-            for(int i =0; i< len; i++)
+            // I only loop one stop from each of initial source nodes
+            // propagate or calulate the effect that I need 
+            // and then loop again on the second layer I added and so on.
+            // So It's multi source BFS in the sense that I do it concurrently 
+            //and terminate and concurrently and terminate
+            // until all is visited or effect is propagated
+            for(int i =0; i< len; i++) 
             {     
                 var cell = q.Dequeue();
                 foreach(var dir in directions)

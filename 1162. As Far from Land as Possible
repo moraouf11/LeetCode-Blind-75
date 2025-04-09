@@ -1,0 +1,73 @@
+public class Solution {
+    public int MaxDistance(int[][] grid) {
+        // int max = int.MinValue;
+        // // I think I will loop one time and store all ones and 
+        // // all zeros in dictionries, 
+        // // and then for each one in a dictionary I'll compare with each key in the other dictionary
+        // // naive but time complexity will be max (O(n^2), O(1sCount*0sCount))
+        // // wrong as it gets the maximum diff between any water and land cell 
+        // // even if that water cell has other very near land cell where 
+        // // where what's required is that I'm trying to get a water cell that has the max distance from 
+        // // nearest land cells 
+        // int n = grid.Length;
+        // var ones = new HashSet<(int i, int j)>();
+        // var zeros = new HashSet<(int i, int j)>();
+
+        // // Step 1: Add all land cells to queue
+        // for (int i = 0; i < n; i++) {
+        //     for (int j = 0; j < n; j++) {
+        //         if (grid[i][j] == 1) 
+        //             ones.Add((i, j));//(0,0), (0,2),(2,0),(2,2)
+        //         else 
+        //             zeros.Add((i,j));//(1,1) ==> this was the issue (1,2) when compared with ones (0,0) 
+        //     }
+        // }
+        // if(ones.Count ==0 || ones.Count == n*n)
+        //    return -1;
+        // foreach(var one in ones)
+        // {
+        //     foreach(var zero in zeros)
+        //     {
+        //         var diff = Math.Abs(zero.i - one.i) + Math.Abs(zero.j - one.j);
+        //         max = Math.Max(max,diff);
+        //     }
+        // }
+
+        // return max;
+        int n = grid.Length;
+        var queue = new Queue<(int i,int j)>();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) 
+                    queue.Enqueue((i,j));
+            }
+        }
+        if (queue.Count == 0 || queue.Count == n * n)
+            return -1;
+        var levels = 0;
+        int[][] directions = new int[][] {
+            new int[] { 1, 0 }, new int[]{-1,0},
+            new int[] { 0, 1 }, new int[]{0,-1}
+        };
+        while(queue.Count >0)
+        {
+            int len = queue.Count;
+            for(int i =0; i< len; i++)
+            {
+                var (x,y) = queue.Dequeue();
+                foreach(var dir in directions)
+                {
+                    int newX = x + dir[0];
+                    int newY =  y + dir[1];
+                    if(newX < 0 || newY < 0 || newX >= n || newY >= n || grid[newX][newY] != 0)
+                       continue;
+                    grid[newX][newY] =2;
+                    queue.Enqueue((newX, newY));
+                }
+            }
+            levels++;
+        }
+        return levels-1;
+
+    }
+}
